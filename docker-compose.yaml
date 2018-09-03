@@ -15,7 +15,8 @@ services:
             - "80:80"
         volumes:
             - code:/var/www/html:cached
-            - ./docker/vhost.conf:/etc/apache2/sites-enabled/000-default.conf
+            - ./docker/vhost.conf:/etc/apache2/sites-enabled/000-default.conf:ro
+            - ~/.composer/auth.json:/root/.composer/auth.json:ro
     database:
         restart: 'on-failure'
         image: mysql:5.7
