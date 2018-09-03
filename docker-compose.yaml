@@ -1,0 +1,28 @@
+version: "3.3"
+
+volumes:
+    code:
+        driver_opts:
+            type: none
+            device: $PWD
+            o: bind
+services:
+    php:
+        restart: 'unless-stopped'
+        build:
+            context: ./docker
+        ports:
+            - "80:80"
+        volumes:
+            - code:/var/www/html:cached
+            - ./docker/vhost.conf:/etc/apache2/sites-enabled/000-default.conf
+    database:
+        restart: 'on-failure'
+        image: mysql:5.7
+        expose:
+            - "3306"
+        environment:
+            - MYSQL_ROOT_PASSWORD=db
+            - MYSQL_DATABASE=db
+            - MYSQL_USER=db
+            - MYSQL_PASSWORD=db
